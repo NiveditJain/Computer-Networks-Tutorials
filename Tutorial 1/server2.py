@@ -154,6 +154,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     # server starting to listen
     server.listen()
 
+    print(f'Server listening on {HOST}:{PORT}...')
+
     # running server
     while True:
 

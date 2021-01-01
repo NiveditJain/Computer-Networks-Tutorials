@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# compiled client
+client
+
 # Object files
 *.o
 *.ko

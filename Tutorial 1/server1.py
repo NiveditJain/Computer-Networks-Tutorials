@@ -172,6 +172,7 @@ def server_driver():
 
 # for smooth handling of KeyBoardInterrupts
 try:
+    print(f'Starting server on {HOST}:{PORT}....')
     server_driver()
 
 # handling KeyBoardInterrupt
