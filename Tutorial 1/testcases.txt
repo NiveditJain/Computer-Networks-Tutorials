@@ -1,0 +1,224 @@
+****
+This file contains information on various scenarios on which server is tested,
+
+We would like to mention that my server is quite robust and could handle many
+operators and operands at time, accepting all mathematical symbol in
+general programming on numbers
+like,
++ add
+- subtract
+* multiply
+/ divide
+% modulo operator
+^ Bit wise XOR
+& Bit wise and
+| Bit wise or
+
+Server also supports brackets with, ( and implements BODMAS too
+
+We are also capable to return floating point where ever necessary
+
+Each thing must be well separated using proper spacing
+
+Below it we are mentioning various test cases we have used to test our server,
+Graph Coverage procedures are used to test each part.
+
+First 7 Tests are as mentioned in the PDF
+****
+
+****
+Test 1 - Checking Server 1 with Single Client and test all 4
+arithmetic operations (+,-,*,/) with two operands each.
+
+Following were copied from command line of client
+
+Connected to server
+Please enter the message to the server: 1 + 1
+Server replied: 2
+Please enter the message to the server: 1 + -1
+Server replied: 0
+Please enter the message to the server: -1 + 100
+Server replied: 99
+Please enter the message to the server: 10 - -9
+Server replied: 19
+Please enter the message to the server: 10 - 9
+Server replied: 1
+Please enter the message to the server: 10 / 9
+Server replied: 1.1111111111111112
+Please enter the message to the server: 10 / 0
+Server replied: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Please enter the message to the server: 100 * 100
+Server replied: 10000
+Please enter the message to the server: 100 * -100
+Server replied: -10000
+Please enter the message to the server: 0 / 0
+Server replied: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Please enter the message to the server: 3 a 7
+Server replied: error : please check input string
+Please enter the message to the server: ^C
+
+****
+
+****
+Test 2 - Switching off one client and connecting to other
+
+Following were copied from server1.py output
+
+Connected with client socket number 127.0.0.1:54812
+Client socket 127.0.0.1:54812 sent the message: 1 + 1
+Sending reply: 2
+Client socket 127.0.0.1:54812 sent the message: 102 + 102
+Sending reply: 204
+Client socket 127.0.0.1:54812 sent the message: 10 + 10
+Sending reply: 20
+Client socket 127.0.0.1:54812 sent the message: 0 / 0
+Sending reply: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Client socket 127.0.0.1:54812 sent the message: 1 - 1
+Sending reply: 0
+Client socket 127.0.0.1:54812 sent the message: 1000
+Sending reply: 1000
+Connected with client socket number 127.0.0.1:54824
+Client socket 127.0.0.1:54824 sent the message: 0 * 0
+Sending reply: 0
+^C
+
+****
+
+****
+Test 3 - trying to connect the second client with server1 when one client is already
+connected
+
+Following was the response on second client
+
+ERROR connecting
+
+****
+
+****
+Test 4 - checking correctness of basic arithmetics
+
+Following was the response while running server2
+
+Connected to server
+Please enter the message to the server: 1 + 1
+Server replied: 2
+Please enter the message to the server: 1 + -1
+Server replied: 0
+Please enter the message to the server: -1 + 100
+Server replied: 99
+Please enter the message to the server: 10 - 9
+Server replied: 1
+Please enter the message to the server: 10 / 9
+Server replied: 1.1111111111111112
+Please enter the message to the server: 10 / 0
+Server replied: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Please enter the message to the server: 100 * 100
+Server replied: 10000
+Please enter the message to the server: 100 * -100
+Server replied: -10000
+Please enter the message to the server: 0 / 0
+Server replied: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Please enter the message to the server: 3 a 7
+Server replied: error : please check input string
+Please enter the message to the server: ^C
+
+****
+
+****
+Test 5 - Starting multiple clients
+
+Following was copied from server 2 output
+
+Connected with client socket number 127.0.0.1:46712
+Client socket 127.0.0.1:46712 sent the message: 100 - 0
+Sending reply: 100
+Connected with client socket number 127.0.0.1:46718
+Client socket 127.0.0.1:46718 sent the message: 200 - 0
+Sending reply: 200
+^C
+****
+
+****
+Test 6 - Correct functioning of multiple clients
+
+Following was copied from server2
+
+Connected with client socket number 127.0.0.1:46738
+Client socket 127.0.0.1:46738 sent the message: 100 + 100
+Sending reply: 200
+Connected with client socket number 127.0.0.1:46742
+Client socket 127.0.0.1:46742 sent the message: 200 + 12
+Sending reply: 212
+Client socket 127.0.0.1:46738 sent the message: 80 / 0
+Sending reply: error : division by 0 not allowed (getting 0 in denominator somewhere in expression)
+Client socket 127.0.0.1:46738 sent the message: 100 -  89
+Sending reply: 11
+Client socket 127.0.0.1:46738 sent the message: 11 - 11
+Sending reply: 0
+Client socket 127.0.0.1:46738 sent the message: 11 / 1000
+Sending reply: 0.011
+Client socket 127.0.0.1:46738 sent the message: 4 ^ 2
+Sending reply: 6
+Client socket 127.0.0.1:46738 sent the message: 4 ^ 0
+Sending reply: 4
+Client socket 127.0.0.1:46738 sent the message: 4 ^ 1
+Sending reply: 5
+Client socket 127.0.0.1:46738 sent the message: 8 & 8
+Sending reply: 8
+Client socket 127.0.0.1:46738 sent the message: 1 | 2
+Sending reply: 3
+Client socket 127.0.0.1:46738 sent the message: 1 3
+Sending reply: error : please check input string
+^C
+****
+
+****
+Test 7 - Checking multiple threading for each client
+
+We added to our code following line to print number of active threads after thread.start()
+
+print(threading.activeCount())
+
+We were able to see that system is working fine and starts a new thread for each new connection.
+****
+
+****
+Test 8 - Checking Custom Algebra
+
+We run server2 and server1 on following inputs (client side shown)
+
+Connected to server
+Please enter the message to the server: 1 + 1 + 1
+Server replied: 3
+Please enter the message to the server: 1 + 2 * 3 - 10 / 10
+Server replied: 6
+Please enter the message to the server: 8 * 8 * 8 * 8 * 8 * 8 * 8 * 8 * 8 * 8
+Server replied: 1073741824
+Please enter the message to the server: 10000 / 10 / 10
+Server replied: 100
+Please enter the message to the server: 1 + 2 * ( 3 - 10 ) / 10
+Server replied: -0.3999999999999999
+Please enter the message to the server: [ 1 + ( 2 * { 3 - 10 } ) ] / 10
+Server replied: error : please check input string
+Please enter the message to the server: ( 1 + ( 2 * ( 3 - 10 ) ) ) / 10
+Server replied: -1.3
+Please enter the message to the server: 1.00001 + 2.0001
+Server replied: 3.0001100000000003
+Please enter the message to the server: 89 - 9
+Server replied: 80
+Please enter the message to the server: 1.000 - 9
+Server replied: -8
+Please enter the message to the server: 0.67 - 0.69
+Server replied: -0.019999999999999907
+Please enter the message to the server:
+^C
+****
+
+****
+RESULTS -
+
+Our server was working very well, we were able to implement a robust server
+supporting multiple operands (all single character operands) on any string of
+operators (till string size is less than 256)
+
+****

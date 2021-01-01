@@ -40,12 +40,20 @@ try:
 except ValueError:
     raise Exception(f'<port-number> must be a valid unsigned 16-bit integer but given {sys.argv[1]}')
 
+"""
+If you want to set HOST Manually please change it to custom address string,
+for example for local host, set
+
+HOST = '127.0.0.1' 
+in place of 
+HOST = socket.gethostbyname(socket.gethostname())
+"""
+
 # getting host (IPv4) for sever system
 HOST = socket.gethostbyname(socket.gethostname())
 
 # MAX_TRANSFER_SIZE is 256 Bytes
 MAX_TRANSFER_SIZE = 256
-
 
 """
 handler functions below it 
@@ -89,7 +97,12 @@ def calculate(message):
         # will return float as possible
         return str(answer)
 
-    # eval might not work for some expression
+    # giving error in case of division by 0
+    except ZeroDivisionError:
+        return 'error : division by 0 not allowed ' \
+               '(getting 0 in denominator somewhere in expression)'
+
+    # eval will not run on wrong expressions
     except:
         return 'error : please check input string'
 
@@ -132,14 +145,35 @@ def handle_connection(connection, address):
 driver codes below it 
 """
 
-# starting TCP over IPv4
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
-    # fixing port and host of the server
-    server.bind((HOST, PORT))
-    server.listen()
-    print(f'Server listening at {HOST}:{PORT}')
 
-    # running server
-    while True:
+# server driver
+def server_driver():
+
+    # starting TCP over IPv4
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+        # fixing port and host of the server
+        server.bind((HOST, PORT))
+
+        # listening on the port
+        server.listen(0)
+
+        # accepting connections, blocking query
         connection, address = server.accept()
+
+        # closing for new TCP Connections
+        server.close()
+
+        # handling the data for each connection
         handle_connection(connection, address)
+
+        # recursive calling for the next connection
+        server_driver()
+
+
+# for smooth handling of KeyBoardInterrupts
+try:
+    server_driver()
+
+# handling KeyBoardInterrupt
+except KeyboardInterrupt:
+    sys.exit(1)
